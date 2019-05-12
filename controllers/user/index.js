@@ -5,16 +5,8 @@ module.exports = {
   async register(ctx) {
     await cors();
     const data = ctx.request.body;
-    if (data.type === "1") {
-      // 教师
-      // try {
 
-      // } catch (error) {
-      //   ctx.body = {
-      //     status: false,
-      //     msg: '数据格式错误'
-      //   }
-      // }
+    if (data.type === "1") {
       let result = await user.checkTeacher(data.account)
       if (result.length) {
         ctx.body = {
@@ -41,35 +33,28 @@ module.exports = {
       }
     } else if (data.type === '2') {
       // 学生
-      try {
-        let result = await user.checkStudent(data.account)
-        if (result.length) {
+      let result = await user.checkStudent(data.account)
+      if (result.length) {
+        ctx.body = {
+          status: true,
+          msg: '该学号已被注册',
+          data: []
+        }
+      } else {
+        try {
+          let stuRegisterRes = await user.doResgiterStudent(data);
           ctx.body = {
             status: true,
-            msg: '该学号已被注册',
+            msg: '学生注册成功',
+            data: stuRegisterRes
+          }
+        } catch (error) {
+          console.log('学生注册失败： ', error)
+          ctx.body = {
+            status: false,
+            msg: '学生注册失败',
             data: []
           }
-        } else {
-          try {
-            let stuRegisterRes = await user.doResgiterStudent(data);
-            ctx.body = {
-              status: true,
-              msg: '学生注册成功',
-              data: stuRegisterRes
-            }
-          } catch (error) {
-            console.log('学生注册失败： ', error)
-            ctx.body = {
-              status: false,
-              msg: '学生注册失败',
-              data: []
-            }
-          }
-        }
-      } catch (error) {
-        ctx.body = {
-          status: false,
-          msg: '数据格式错误'
         }
       }
     }

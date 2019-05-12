@@ -32,5 +32,5 @@ supervisor ./index.js
   **Method**: POST
   **参数：**
   + type： 1（教师）、2（学生）
-  + accont： 学生学号/教师工号
+  + account： 学生学号/教师工号
   + password：密码
