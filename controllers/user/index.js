@@ -91,5 +91,16 @@ module.exports = {
         }
       }
     }
+  },
+  async logout(ctx) {
+    await cors()
+    const data = ctx.request.body
+    if(data.type === '1'){
+      let result = await user.teacherLogout(data.account)
+      ctx.body = result
+    }else if(data.type === '2'){
+      let result = await user.studentLogout(account)
+      ctx.body = result
+    }
   }
 }

@@ -104,11 +104,55 @@ async function teacherLogin(data) {
   }
 }
 
+async function studentLogout(account) {
+  let hasStudent = await checkStudent(account)
+  if (hasStudent.length) {
+    return mysql.createConnection(DBConfig)
+      .then(conn => {
+        let result = conn.query(`update student SET isLogin=0 WHERE StudentNo=${account}`)
+        conn.end()
+        return {
+          statu: true,
+          msg: '已退出登录'
+        }
+      })
+  } else {
+    return {
+      status: true,
+      msg: '不存在该用户',
+      data: '1000'
+    }
+  }
+}
+
+async function teacherLogout(account) {
+  let hasTeacher = await checkTeacher(account)
+  if (hasTeacher.length) {
+    return mysql.createConnection(DBConfig)
+      .then(conn => {
+        let result = conn.query(`update teacher SET isLogin=0 WHERE WorkNo=${account}`)
+        conn.end()
+        return {
+          statu: true,
+          msg: '已退出登录'
+        }
+      })
+  } else {
+    return {
+      status: true,
+      msg: '不存在该用户',
+      data: '1000'
+    }
+  }
+}
+
 module.exports = {
   checkStudent,
   checkTeacher,
   doResgiterStudent,
   doResgiterTeacher,
   studentLogin,
-  teacherLogin
+  teacherLogin,
+  studentLogout,
+  teacherLogout
 }
