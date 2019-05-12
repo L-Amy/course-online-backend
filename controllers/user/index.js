@@ -58,6 +58,38 @@ module.exports = {
         }
       }
     }
-
+  },
+  async login(ctx) {
+    await cors();
+    const data = ctx.request.body;
+    if (data.type === '1') {
+      // 教师登录
+      let result = await user.teacherLogin(data)
+      if (result.data === '1001') {
+        ctx.body = result
+      } else if (result.data === '1000') {
+        ctx.body = result
+      } else {
+        ctx.body = {
+          status: true,
+          msg: '教师登录成功',
+          data: result
+        }
+      }
+    } else if (data.type === '2') {
+      // 学生登录
+      let result = await user.studentLogin(data)
+      if (result.data === '1001') {
+        ctx.body = result
+      } else if (result.data === '1000') {
+        ctx.body = result
+      } else {
+        ctx.body = {
+          status: true,
+          msg: '学生登录成功',
+          data: result
+        }
+      }
+    }
   }
 }
