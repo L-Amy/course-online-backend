@@ -27,7 +27,7 @@ async function checkTeacher(account) {
 
 async function doResgiterStudent(data) {
   let createDate = fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss')
-  let sql = `insert into student (StudentNo,Password,isLogin,CreateDateTime) values ('${data.account}','${data.password}',0,${createDate}')`
+  let sql = `insert into student (StudentNo,Password,isLogin,CreateDateTime) values ('${data.account}','${data.password}',0,'${createDate}')`
   return mysql.createConnection(DBConfig)
     .then(conn => {
       var result = conn.query(sql)

@@ -37,9 +37,19 @@ async function getClassList(GradeId){
         return result;
     })
 }
+
+async function getCourseList(GradeId){
+    let sql=`SELECT Id,SpecialityId,GradeId,CourseNo,Name FROM course where GradeId=${GradeId}`;
+    return mysql.createConnection(DBConfig).then(conn=>{
+        var result = conn.query(sql);
+        conn.end();
+        return result;
+    })
+}
 module.exports = {
     getColleagueList,
     getSpecilityList,
     getGradeList,
     getClassList,
+    getCourseList,
 }

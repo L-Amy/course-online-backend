@@ -24,4 +24,10 @@ module.exports = {
         let result = await common.getClassList(request.GradeId);
         ctx.body = result;
     },
+    async getCourseList(ctx){
+        await cors();
+        let request=ctx.request.body;
+        let result = await common.getCourseList(request.GradeId);
+        ctx.body = result;
+    },
 }

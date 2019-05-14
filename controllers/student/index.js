@@ -1,11 +1,11 @@
 let cors = require('koa-cors');
-const teacher = require('../../service/teacher')
+const student = require('../../service/student')
 module.exports={
     async updateMessage(ctx){
         await cors();
         const data = ctx.request.body;
         if(data != null){
-            let result = await teacher.updateMessage(data);
+            let result = await student.updateMessage(data);
             if(result.affectedRows>0){
                 result={
                     code:1001,
@@ -24,7 +24,7 @@ module.exports={
         await cors();
         const data = ctx.request.body;
         if(data != null){
-            let result = await teacher.selectMessage(data);
+            let result = await student.selectMessage(data);
             if(result==null){
                 result=[];
             }
