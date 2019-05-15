@@ -54,7 +54,8 @@ async function studentLogin(data) {
     if (student.Password == data.password) {
       return mysql.createConnection(DBConfig)
         .then(conn => {
-          let result = conn.query(`update student SET isLogin=1 WHERE StudentNo=${data.account} and Password=${data.password}`)
+          let sql=`update student SET isLogin=1 WHERE StudentNo='${data.account}' and Password='${data.password}'`;
+          let result = conn.query(sql)
           conn.end();
           student['isLogin'] = 1;
           return student;
@@ -83,7 +84,7 @@ async function teacherLogin(data) {
     if (teacher.Password == data.password) {
       return mysql.createConnection(DBConfig)
         .then(conn => {
-          let result = conn.query(`update teacher SET isLogin=1 WHERE WorkNo=${data.account} and Password=${data.password}`)
+          let result = conn.query(`update teacher SET isLogin=1 WHERE WorkNo='${data.account}' and Password='${data.password}'`)
           conn.end();
           teacher['isLogin'] = 1;
           return teacher;
@@ -133,7 +134,7 @@ async function teacherLogout(account) {
         let result = conn.query(`update teacher SET isLogin=0 WHERE WorkNo=${account}`)
         conn.end()
         return {
-          statu: true,
+          status: true,
           msg: '已退出登录'
         }
       })
