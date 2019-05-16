@@ -11,8 +11,20 @@ async function updateMessage(request) {
     })
 }
 
-async function selectMessage(request){
-    let sql=`select *from student where Id=${request.Id}`;
+async function selectMessage(request) {
+    let sql = `select *from student where Id=${request.Id}`;
+    return mysql.createConnection(DBConfig).then(conn => {
+        var result = conn.query(sql);
+        conn.end();
+        return result;
+    })
+}
+async function getStudentList(classId,teacherId) {
+    let sql = `SELECT s.Id,s.Name,s.StudentNo,
+    (SELECT COUNT(TaskStatus) from task WHERE TaskStatus!=0 and StudentId=s.Id and TeacherId=${teacherId})as comCount
+    FROM student as s
+    LEFT JOIN task as t on t.StudentId=s.Id
+    where s.ClassId=${classId}`;
     return mysql.createConnection(DBConfig).then(conn => {
         var result = conn.query(sql);
         conn.end();
@@ -21,5 +33,6 @@ async function selectMessage(request){
 }
 module.exports = {
     updateMessage,
-    selectMessage
+    selectMessage,
+    getStudentList
 }

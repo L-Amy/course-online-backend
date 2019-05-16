@@ -1,5 +1,6 @@
 let cors = require('koa-cors');
-const student = require('../../service/student')
+const student = require('../../service/student');
+const task=require('../../service/task')
 module.exports={
     async updateMessage(ctx){
         await cors();
@@ -27,6 +28,20 @@ module.exports={
             let result = await student.selectMessage(data);
             if(result==null){
                 result=[];
+            }
+            ctx.body = result
+        }
+    },
+    async getStudentList(ctx){
+        await cors();
+        const data = ctx.request.body;
+        if(data != null){
+            let result = await student.getStudentList(data.classId,data.teacherId);
+            if(result.length>0){
+                let res=await task.getTask({teacherId:data.teacherId});
+                result.forEach((item,index) => {
+                    item['uncomCount']=res[0].count- item.comCount;
+                });
             }
             ctx.body = result
         }

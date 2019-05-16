@@ -58,7 +58,7 @@ async function deleteTask(ctx) {
         }
     }
 }
-async function updateTask(ctx){
+async function updateTask(ctx) {
     await cors();
     const request = ctx.request.body;
     if (request != null) {
@@ -76,10 +76,58 @@ async function updateTask(ctx){
         }
     }
 }
+async function answerTask(ctx) {
+    await cors();
+    const request = ctx.request.body;
+    if (request != null) {
+        try {
+            let result = await task.answerTask(request);
+            ctx.body = {
+                code: '1001',
+                msg: "回答成功",
+            }
+        } catch{
+            ctx.body = {
+                code: '1000',
+                msg: "回答失败",
+            }
+        }
+    }
+}
+async function markTask(ctx) {
+    await cors();
+    const request = ctx.request.body;
+    if (request != null) {
+        try {
+            let result = await task.markTask(request);
+            ctx.body = {
+                code: '1001',
+                msg: "批阅成功",
+            }
+        } catch{
+            ctx.body = {
+                code: '1000',
+                msg: "批阅失败",
+            }
+        }
+    }
+}
+async function TaskDetail(ctx) {
+    await cors();
+    const request = ctx.request.body;
+    if (request != null) {
+        let result = await task.TaskDetail(request.Id);
+        ctx.body = result;
+    }
+}
 module.exports = {
     publishTask,
     getTaskList,
     getTask,
     deleteTask,
-    updateTask
+    updateTask,
+    answerTask,
+    markTask,
+    TaskDetail
+
 }

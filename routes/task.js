@@ -7,4 +7,7 @@ const routers = router
   .post('/getTask',TaskAPI.getTask)//得到关于学生的任务列表
   .post('/deleteTask',TaskAPI.deleteTask)
   .post('/updateTask',TaskAPI.updateTask)
+  .post('/answerTask',TaskAPI.answerTask)
+  .post('/markTask',TaskAPI.markTask)
+  .post('/TaskDetail',TaskAPI.TaskDetail)
 module.exports = routers

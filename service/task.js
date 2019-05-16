@@ -24,7 +24,15 @@ module.exports = {
     },
     //得到任务列表关于学生的
     async getTask(request){
-        let sql=`SELECT * FROM task WHERE CourseId=${request.CourseId} AND TaskStatus=${request.TaskStatus}`;
+        if(request.CourseId>0){
+            var sql=`SELECT * FROM task WHERE CourseId=${request.CourseId} AND TaskStatus=${request.TaskStatus}`;
+        }
+        if(request.StudentId>0){
+            var sql=`SELECT * FROM task WHERE StudentId=${request.StudentId} AND TaskStatus=${request.TaskStatus}`;
+        }
+        if(request.teacherId>0){
+            var sql=`SELECT COUNT(*) AS count FROM task WHERE TeacherId=${request.teacherId}`;
+        }
         return mysql.createConnection(DBConfig).then(conn=>{
             var result=conn.query(sql);
             conn.end();
@@ -41,6 +49,30 @@ module.exports = {
     },
     async updateTask(request){
         let sql=`update task set Content='${request.Content}' where Id=${request.TaskId}`;
+        return mysql.createConnection(DBConfig).then(conn=>{
+            var result=conn.query(sql);
+            conn.end();
+            return result;
+        })
+    },
+    async answerTask(request){
+        let sql=`update task set StudentId=${request.StudentId},answerContent='${request.AnswerContent}',TaskStatus=1 where Id=${request.Id}`;
+        return mysql.createConnection(DBConfig).then(conn=>{
+            var result=conn.query(sql);
+            conn.end();
+            return result;
+        })
+    },
+    async markTask(request){
+        let sql=`Update task SET MarkContent='${request.markContent}',TaskStatus=2 WHERE Id=${request.Id}`;
+        return mysql.createConnection(DBConfig).then(conn=>{
+            var result=conn.query(sql);
+            conn.end();
+            return result;
+        })
+    },
+    async TaskDetail(id){
+        let sql=`SELECT *FROM task where Id=${id}`;
         return mysql.createConnection(DBConfig).then(conn=>{
             var result=conn.query(sql);
             conn.end();
