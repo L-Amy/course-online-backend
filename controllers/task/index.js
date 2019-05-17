@@ -120,6 +120,50 @@ async function TaskDetail(ctx) {
         ctx.body = result;
     }
 }
+async function askTask(ctx) {
+    await cors();
+    try {
+        const request = ctx.request.body;
+        if (request != null) {
+            let result = await task.askTask(request);
+            ctx.body = result;
+        }
+
+    } catch{
+        return ctx.body = {
+            code: '1000',
+            msg: "提问失败"
+        }
+    }
+}
+async function getAskList(ctx) {
+    await cors();
+    const request = ctx.request.body;
+    let result = await task.getAskList(request);
+    ctx.body = result;
+}
+async function getAskDetail(ctx){
+    await cors();
+    const request = ctx.request.body;
+    let result = await task.getAskDetail(request.Id);
+    ctx.body = result;
+}
+async function answerAsk(ctx){
+    await cors();
+    try{
+        const request = ctx.request.body;
+        let result = await task.answerAsk(request);
+        ctx.body={
+            code:'1001',
+            msg:"答疑成功"
+        }
+    }catch{
+        ctx.body={
+            code:'1000',
+            mag:"答疑失败"
+        }
+    }
+}
 module.exports = {
     publishTask,
     getTaskList,
@@ -128,6 +172,10 @@ module.exports = {
     updateTask,
     answerTask,
     markTask,
-    TaskDetail
+    TaskDetail,
+    askTask,
+    getAskList,
+    getAskDetail,
+    answerAsk
 
 }

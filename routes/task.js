@@ -10,4 +10,8 @@ const routers = router
   .post('/answerTask',TaskAPI.answerTask)
   .post('/markTask',TaskAPI.markTask)
   .post('/TaskDetail',TaskAPI.TaskDetail)
+  .post('/askTask',TaskAPI.askTask)
+  .post('/getAskList',TaskAPI.getAskList)
+  .post('/getAskDetail',TaskAPI.getAskDetail)
+  .post('/answerAsk',TaskAPI.answerAsk)
 module.exports = routers
