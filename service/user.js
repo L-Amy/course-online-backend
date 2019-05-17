@@ -27,7 +27,7 @@ async function checkTeacher(account) {
 
 async function doResgiterStudent(data) {
   let createDate = fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss')
-  let sql = `insert into student (StudentNo,Password,CreateDateTime) values ('${data.account}','${data.password}','${createDate}')`
+  let sql = `insert into student (StudentNo,Password,isLogin,CreateDateTime) values ('${data.account}','${data.password}',0,'${createDate}')`
   return mysql.createConnection(DBConfig)
     .then(conn => {
       var result = conn.query(sql)
@@ -38,7 +38,7 @@ async function doResgiterStudent(data) {
 
 async function doResgiterTeacher(data) {
   let createDate = fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss')
-  let sql = `insert into teacher (WorkNo,Password,createDateTime) values ('${data.account}','${data.password}','${createDate}')`
+  let sql = `insert into teacher (WorkNo,Password,isLogin,createDateTime) values ('${data.account}','${data.password}',0,'${createDate}')`
   return mysql.createConnection(DBConfig)
     .then(conn => {
       var result = conn.query(sql)
@@ -54,7 +54,8 @@ async function studentLogin(data) {
     if (student.Password == data.password) {
       return mysql.createConnection(DBConfig)
         .then(conn => {
-          let result = conn.query(`update student SET isLogin=1 WHERE StudentNo=${data.account} and Password=${data.password}`)
+          let sql=`update student SET isLogin=1 WHERE StudentNo='${data.account}' and Password='${data.password}'`;
+          let result = conn.query(sql)
           conn.end();
           student['isLogin'] = 1;
           return student;
@@ -83,7 +84,7 @@ async function teacherLogin(data) {
     if (teacher.Password == data.password) {
       return mysql.createConnection(DBConfig)
         .then(conn => {
-          let result = conn.query(`update teacher SET isLogin=1 WHERE WorkNo=${data.account} and Password=${data.password}`)
+          let result = conn.query(`update teacher SET isLogin=1 WHERE WorkNo='${data.account}' and Password='${data.password}'`)
           conn.end();
           teacher['isLogin'] = 1;
           return teacher;
@@ -133,7 +134,7 @@ async function teacherLogout(account) {
         let result = conn.query(`update teacher SET isLogin=0 WHERE WorkNo=${account}`)
         conn.end()
         return {
-          statu: true,
+          status: true,
           msg: '已退出登录'
         }
       })
@@ -141,7 +142,7 @@ async function teacherLogout(account) {
     return {
       status: true,
       msg: '不存在该用户',
-      data: '1000'
+      data: '1000' //code
     }
   }
 }

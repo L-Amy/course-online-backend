@@ -19,7 +19,7 @@ module.exports = {
           let teaRegisterRes = await user.doResgiterTeacher(data)
           ctx.body = {
             status: true,
-            msg: '教师注册成功',
+            msg: '教师注册成功,请去登录',
             data: teaRegisterRes
           }
         } catch (error) {
@@ -99,7 +99,7 @@ module.exports = {
       let result = await user.teacherLogout(data.account)
       ctx.body = result
     }else if(data.type === '2'){
-      let result = await user.studentLogout(account)
+      let result = await user.studentLogout(data.account)
       ctx.body = result
     }
   }
