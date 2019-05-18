@@ -14,7 +14,7 @@ module.exports = {
     const fileName = `${Math.random().toString()}.${ext}`
     const upStream = fs.createWriteStream(`public/images/${fileName}`)
     reader.pipe(upStream);
-    data.url = `/images/${fileName}`
+    data.url = `/public/images/${fileName}`
 
     await fileServe.updateStudentAvatar(data).then(res => {
       if (res) {
@@ -45,7 +45,7 @@ module.exports = {
     const fileName = `${Math.random().toString()}.${ext}`
     const upStream = fs.createWriteStream(`public/images/${fileName}`)
     reader.pipe(upStream);
-    data.url = `/images/${fileName}`
+    data.url = `/public/images/${fileName}`
 
     await fileServe.updateTeacherAvatar(data).then(res => {
       if (res) {
